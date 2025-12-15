@@ -1,0 +1,33 @@
+// This is a reference file showing all the patterns to fix
+// The following fetch patterns need to be replaced:
+
+// Pattern 1: Basic fetch with try/catch
+// FROM:
+// const response = await fetch('http://localhost:5000/api/...');
+// if (!response.ok) throw new Error(...);
+// const data = await response.json();
+
+// TO:
+// const result = await safeFetch('/api/...');
+// if (result.success && result.data) { ... }
+// else { setError(result.error); }
+
+// Pattern 2: Multiple fetches in Promise.all
+// FROM:
+// Promise.all([
+//   fetch('http://localhost:5000/api/...'),
+//   fetch('http://localhost:5000/api/...')
+// ])
+
+// TO:
+// Promise.all([
+//   safeFetch('/api/...'),
+//   safeFetch('/api/...')
+// ])
+
+// Pattern 3: Error handling UI
+// FROM:
+// <p className="text-red-600">{error}</p>
+
+// TO:
+// <FetchErrorFallback message={error} onRetry={() => ...} showRetry={true} />
